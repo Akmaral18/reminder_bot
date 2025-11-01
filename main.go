@@ -15,7 +15,7 @@ func main() {
 		fmt.Fprint(w, "Hello World!")
 	})
 	fmt.Println("Запускаем сервер")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", r)
 	if err != nil {
 		panic(err)
 	}
