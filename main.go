@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -56,8 +57,35 @@ func HandleWebhook(w http.ResponseWriter, r *http.Request) {
 		log.Printf("[%s] %s", update.Message.From.Username, update.Message.Text)
 	}
 
+	if update.Message.Chat != nil && update.Message.Text != "" {
+		sendMessage(int(update.Message.Chat.ID), update.Message.Text)
+	}
+
 }
 
+type SendMessage struct {
+	ChatID int64  `json:"chat_id"`
+	Text   string `json:"text"`
+}
+
+func sendMessage(chatID int, message string) {
+	url := "https://api.telegram.org/bot8217269610:AAHInG-LgHmjjU-ET9qMwNO2EfwBT7ac2O0/sendMessage"
+
+	buf := new(bytes.Buffer)
+	json.NewEncoder(buf).Encode(SendMessage{
+		ChatID: int64(chatID),
+		Text:   message,
+	})
+
+	resp, err := http.Post(url, "application/json", buf)
+	if err != nil {
+		log.Printf("error :%q", err)
+	}
+	defer resp.Body.Close()
+
+	log.Println("Статус: ", resp.Status)
+
+}
 func main() {
 
 	r := chi.NewRouter()
