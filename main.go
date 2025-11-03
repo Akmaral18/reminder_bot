@@ -62,7 +62,7 @@ func main() {
 
 	r := chi.NewRouter()
 
-	r.Get("/", HandleWebhook)
+	r.Post("/", HandleWebhook)
 
 	fmt.Println("Запускаем сервер")
 	err := http.ListenAndServe(":8080", r)
