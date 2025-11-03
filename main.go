@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-type UpdateResponse struct {
+type Update struct {
 	Message *Message `json:"message,omitempty"`
 }
 
@@ -40,10 +40,11 @@ type Chat struct {
 
 func HandleWebhook(w http.ResponseWriter, r *http.Request) {
 
-	var update UpdateResponse
+	var update Update
 
 	if err := json.NewDecoder(r.Body).Decode(&update); err != nil {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
+		log.Printf("error: %q", err)
 		return
 	}
 
