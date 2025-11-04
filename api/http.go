@@ -1,8 +1,10 @@
-package main
+package api
 
 import (
 	"fmt"
 	"net/http"
+
+	"reminder_bot/api/handlers"
 
 	"github.com/go-chi/chi"
 )
@@ -19,7 +21,7 @@ type HTTPServer struct {
 func (s *HTTPServer) Run() {
 	r := chi.NewRouter()
 
-	r.Post("/", Echo)
+	r.Post("/", s.Hndlr.Echo)
 
 	fmt.Println("Запускаем сервер")
 	err := http.ListenAndServe(s.Addr, r)
