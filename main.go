@@ -11,7 +11,7 @@ func main() {
 	handler := &handlers.HTTPHandler{Service: service}
 
 	server := &api.HTTPServer{
-		Addr:  "8080",
+		Addr:  ":8080",
 		Hndlr: handler,
 	}
 
